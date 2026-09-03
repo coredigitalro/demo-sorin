@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sorin — Acoperișuri durabile, fără griji</title>
+<meta name="description" content="Sorin – specialiști în acoperișuri la Craiova, oferim montaj, reparații și întreținere de calitate superioară, rapid și la prețuri competitive.">
+
+<!-- Open Graph / Social -->
+<meta property="og:title" content="sorin">
+<meta property="og:description" content="Sorin – specialiști în acoperișuri la Craiova, oferim montaj, reparații și întreținere de calitate superioară, rapid și la prețuri competitive.">
+<meta property="og:type" content="website">
+
+<!-- Tailwind + GSAP for animations -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- Schema.org JSON-LD for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "sorin",
+  "telephone": "0754 643 35",
+  "address": {"@type": "PostalAddress", "addressLocality": "Craiova", "addressCountry": "Romania"},
+  "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "237"}
+}
+</script>
+
+<style>
+:root {
+  --brand: #c0392b;        /* e.g. #2563eb */
+  --brand-dark: #922b21;    /* e.g. #1e40af */
+  --accent: #e74c3c;      /* e.g. #f59e0b */
+  --bg: #0a0a0f;
+  --surface: #14141c;
+  --text: #f5f5f5;
+  --text-dim: #94a3b8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── Animated background gradient blobs ── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: -1;
+}
+.blob-1 { width: 500px; height: 500px; background: var(--brand); top: -100px; left: -100px; animation: float 20s infinite ease-in-out; }
+.blob-2 { width: 400px; height: 400px; background: var(--accent); top: 40%; right: -100px; animation: float 25s infinite ease-in-out reverse; }
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -40px) scale(1.1); }
+}
+
+/* ── Navigation ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+  background: rgba(10, 10, 15, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-weight: 800; font-size: 1.25rem; color: var(--brand); letter-spacing: -0.02em; }
+nav ul { display: flex; gap: 28px; list-style: none; }
+nav a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+nav a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--brand); color: #fff !important;
+  padding: 8px 18px; border-radius: 8px; font-weight: 600;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background: var(--brand-dark); transform: translateY(-2px); }
+
+@media (max-width: 768px) { nav ul { display: none; } }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 24px;
+  position: relative;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, var(--text) 0%, var(--brand) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--text-dim); max-width: 700px; margin: 0 auto 40px; }
+.hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+.btn-primary, .btn-secondary {
+  padding: 14px 32px; border-radius: 10px;
+  font-weight: 600; text-decoration: none;
+  font-size: 1rem; display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.3s;
+  border: none; cursor: pointer;
+}
+.btn-primary {
+  background: var(--brand); color: #fff;
+  box-shadow: 0 10px 30px -10px var(--brand);
+}
+.btn-primary:hover { background: var(--brand-dark); transform: translateY(-3px); box-shadow: 0 20px 40px -10px var(--brand); }
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05); color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); }
+
+/* ── Stats strip ── */
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px; max-width: 900px; margin: 60px auto; padding: 0 24px;
+}
+.stat { text-align: center; }
+.stat .num {
+  font-size: 2.5rem; font-weight: 800; color: var(--brand);
+  display: block; margin-bottom: 4px;
+}
+.stat .label { color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ── Section base ── */
+section { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em;
+  text-align: center; margin-bottom: 16px;
+}
+.section-subtitle { color: var(--text-dim); text-align: center; max-width: 600px; margin: 0 auto 64px; font-size: 1.1rem; }
+
+/* ── Services cards ── */
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.service-card {
+  background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px; padding: 32px;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
+  transform: translateX(-100%); transition: transform 0.5s;
+}
+.service-card:hover { transform: translateY(-8px); border-color: var(--brand); }
+.service-card:hover::before { transform: translateX(100%); }
+.service-icon {
+  width: 56px; height: 56px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 20px;
+}
+.service-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+.service-card p { color: var(--text-dim); }
+
+/* ── Gallery ── */
+.gallery {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.gallery-item {
+  aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden;
+  position: relative; cursor: pointer;
+  background: var(--surface);
+}
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s;
+}
+.gallery-item:hover img { transform: scale(1.08); }
+.gallery-item::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.gallery-item:hover::after { opacity: 1; }
+.gallery-caption {
+  position: absolute; bottom: 16px; left: 16px; right: 16px;
+  color: #fff; font-weight: 600; opacity: 0; transition: opacity 0.3s;
+  z-index: 1;
+}
+.gallery-item:hover .gallery-caption { opacity: 1; }
+
+/* ── Reviews ── */
+.reviews-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.review-card {
+  background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px; padding: 28px;
+  position: relative;
+}
+.review-stars { color: #fbbf24; font-size: 1.1rem; margin-bottom: 12px; letter-spacing: 2px; }
+.review-text { font-style: italic; margin-bottom: 20px; color: #e2e8f0; }
+.review-author { display: flex; align-items: center; gap: 12px; }
+.review-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff;
+}
+.review-author-info { display: flex; flex-direction: column; }
+.review-author-name { font-weight: 600; }
+.review-author-meta { font-size: 0.85rem; color: var(--text-dim); }
+
+/* ── Contact section ── */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: start;
+}
+@media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+.contact-info { display: flex; flex-direction: column; gap: 20px; }
+.contact-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px; background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  text-decoration: none; color: var(--text);
+  transition: all 0.2s;
+}
+.contact-item:hover { border-color: var(--brand); transform: translateX(8px); }
+.contact-item-icon {
+  width: 48px; height: 48px; border-radius: 10px;
+  background: rgba(37, 99, 235, 0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.contact-item-text { display: flex; flex-direction: column; }
+.contact-item-label { font-size: 0.85rem; color: var(--text-dim); }
+.contact-item-value { font-weight: 600; }
+
+/* ── Contact form ── */
+.contact-form {
+  background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px; padding: 32px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.contact-form label { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 4px; }
+.contact-form input,
+.contact-form textarea {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  padding: 12px 16px; border-radius: 8px;
+  font-family: inherit; font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus { outline: none; border-color: var(--brand); }
+.contact-form textarea { resize: vertical; min-height: 100px; }
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px 24px; text-align: center;
+  color: var(--text-dim); font-size: 0.9rem;
+}
+
+/* ── Floating WhatsApp button ── */
+.whatsapp-float {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: #25d366; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; text-decoration: none;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+  z-index: 100;
+  animation: pulse-wa 2s infinite;
+  transition: transform 0.3s;
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+@keyframes pulse-wa {
+  0%, 100% { box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 8px 32px rgba(37, 211, 102, 0.7); }
+}
+
+/* ── Chatbot widget ── */
+.chatbot-toggle {
+  position: fixed; bottom: 24px; left: 24px;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  color: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+  z-index: 100;
+  transition: transform 0.3s;
+}
+.chatbot-toggle:hover { transform: scale(1.1); }
+
+.chatbot-window {
+  position: fixed; bottom: 100px; left: 24px;
+  width: 360px; max-width: calc(100vw - 48px); height: 500px; max-height: calc(100vh - 140px);
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: none; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  overflow: hidden;
+}
+.chatbot-window.open { display: flex; animation: slideUp 0.3s ease-out; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.chatbot-header {
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.chatbot-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.chatbot-title { font-weight: 700; }
+.chatbot-status { font-size: 0.75rem; opacity: 0.9; }
+.chatbot-status::before { content: '●'; color: #4ade80; margin-right: 4px; }
+
+.chatbot-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.chat-msg {
+  padding: 10px 14px; border-radius: 14px;
+  max-width: 85%; font-size: 0.92rem;
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.chat-msg.bot { background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 4px; }
+.chat-msg.user { background: var(--brand); align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-typing { display: flex; gap: 4px; padding: 12px 16px; }
+.chat-typing span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--text-dim);
+  animation: typing 1.4s infinite;
+}
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+.chatbot-input {
+  display: flex; gap: 8px; padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.chatbot-input input {
+  flex: 1; background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text); padding: 10px 14px; border-radius: 8px;
+  font-family: inherit;
+}
+.chatbot-input input:focus { outline: none; border-color: var(--brand); }
+.chatbot-input button {
+  background: var(--brand); color: #fff; border: none;
+  padding: 10px 16px; border-radius: 8px; cursor: pointer;
+  font-weight: 600;
+}
+.chatbot-quick-replies {
+  display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 8px;
+}
+.chatbot-quick-replies button {
+  background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.3);
+  color: var(--brand); padding: 6px 12px; border-radius: 16px;
+  font-size: 0.8rem; cursor: pointer;
+  transition: all 0.2s;
+}
+.chatbot-quick-replies button:hover { background: rgba(37, 99, 235, 0.2); }
+
+/* ── Animation reveal classes for GSAP ── */
+.reveal { opacity: 0; transform: translateY(40px); }
+</style>
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<!-- Navigation -->
+<nav>
+  <div class="logo">sorin</div>
+  <ul>
+    <li><a href="#servicii">Servicii</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#recenzii">Recenzii</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:0754 643 35" class="nav-cta">Sună acum</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div>
+    <h1 class="reveal">Acoperișuri rezistente pentru casa ta</h1>
+    <p class="reveal">Transformăm fiecare acoperiș într-o barieră sigură împotriva intemperiilor, garantând durabilitate și estetică. Echipa noastră locală din Craiova acționează rapid și profesionist.</p>
+    <div class="hero-ctas reveal">
+      <a href="https://wa.me/075464335" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.005 21.79h-.005a9.847 9.847 0 0 1-5.031-1.378l-.361-.214-3.741.981.999-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.892c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a12.062 12.062 0 0 0 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"/></svg>
+        Scrie pe WhatsApp
+      </a>
+      <a href="tel:0754 643 35" class="btn-secondary">📞 0754 643 35</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats reveal">
+  <div class="stat"><span class="num">12+</span><span class="label">Ani experiență</span></div>
+  <div class="stat"><span class="num">845+</span><span class="label">Proiecte finalizate</span></div>
+  <div class="stat"><span class="num">4.8★</span><span class="label">237 recenzii</span></div>
+  <div class="stat"><span class="num">24/7</span><span class="label">Disponibili</span></div>
+</div>
+
+<!-- Services -->
+<section id="servicii">
+  <h2 class="section-title reveal">Serviciile noastre</h2>
+  <p class="section-subtitle reveal">Descoperă gama completă de servicii pentru acoperișul tău.</p>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🏠</div>
+      <h3>Montaj acoperișuri noi</h3>
+      <p>Instalăm acoperișuri noi cu materiale premium, asigurând izolație optimă. Proiectele sunt finalizate la timp și respectă standardele de siguranță.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">⚡</div>
+      <h3>Reparații acoperișuri</h3>
+      <p>Intervenim rapid la scurgeri și deteriorări, prelungind viața acoperișului. Folosim tehnici moderne pentru rezultate durabile.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🔨</div>
+      <h3>Întreținere periodică</h3>
+      <p>Programăm verificări regulate pentru a preveni problemele majore. Curățăm și consolidăm structura pentru eficiență energetică.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🛡</div>
+      <h3>Izolație termică și fonică</h3>
+      <p>Montăm soluții de izolație care reduc costurile de încălzire și zgomotul. Asigurăm confortul locuinței tale pe tot parcursul anului.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section id="galerie">
+  <h2 class="section-title reveal">Lucrările noastre</h2>
+  <p class="section-subtitle reveal">Proiecte recente — calitate vizibilă în fiecare detaliu</p>
+  <div class="gallery">
+    <div class="gallery-item reveal">
+      <img src="https://picsum.photos/seed/roofing-808/800/600" alt="Acoperiș nou instalat" loading="lazy">
+      <div class="gallery-caption">Acoperiș nou instalat</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://picsum.photos/seed/roof-construction-921/800/600" alt="Reparație în curs" loading="lazy">
+      <div class="gallery-caption">Reparație în curs</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://picsum.photos/seed/house-roof-7383/800/600" alt="Echipă la lucru" loading="lazy">
+      <div class="gallery-caption">Echipă la lucru</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://picsum.photos/seed/roof-tiles-5583/800/600" alt="Detaliu izolație" loading="lazy">
+      <div class="gallery-caption">Detaliu izolație</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://picsum.photos/seed/roof-repair-9775/800/600" alt="Finisaj final" loading="lazy">
+      <div class="gallery-caption">Finisaj final</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://picsum.photos/seed/roof-work-1939/800/600" alt="Inspectie post-intervenție" loading="lazy">
+      <div class="gallery-caption">Inspectie post-intervenție</div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section id="recenzii">
+  <h2 class="section-title reveal">Ce spun clienții</h2>
+  <p class="section-subtitle reveal">4.8★ medie din 237+ recenzii reale</p>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Echipa Sorin a fost extrem de profesionistă și a terminat lucrarea înainte de termen. Acoperișul arată impecabil și nu am mai avut scurgeri."</p>
+      <div class="review-author">
+        <div class="review-avatar">I</div>
+        <div class="review-author-info">
+          <span class="review-author-name">Ion Popescu</span>
+          <span class="review-author-meta">Martie 2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Am apreciat răspunsul rapid și atenția la detalii. Recomand cu încredere pentru orice tip de acoperiș."</p>
+      <div class="review-author">
+        <div class="review-avatar">A</div>
+        <div class="review-author-info">
+          <span class="review-author-name">Ana Ionescu</span>
+          <span class="review-author-meta">Februarie 2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Calitatea materialelor și execuția au depășit așteptările mele. Serviciul clienți a fost foarte amabil."</p>
+      <div class="review-author">
+        <div class="review-avatar">M</div>
+        <div class="review-author-info">
+          <span class="review-author-name">Mihai Georgescu</span>
+          <span class="review-author-meta">Ianuarie 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <h2 class="section-title reveal">Hai să discutăm</h2>
+  <p class="section-subtitle reveal">Răspundem rapid pe orice canal preferi</p>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <a href="tel:0754 643 35" class="contact-item reveal">
+        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">Sună-ne</span>
+          <span class="contact-item-value">0754 643 35</span>
+        </div>
+      </a>
+      <a href="https://wa.me/075464335" class="contact-item reveal">
+        <div class="contact-item-icon">💬</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">WhatsApp</span>
+          <span class="contact-item-value">Răspuns în sub 30 min</span>
+        </div>
+      </a>
+      <a href="mailto:contact@sorin.ro" class="contact-item reveal">
+        <div class="contact-item-icon">✉</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">Email</span>
+          <span class="contact-item-value">contact@sorin.ro</span>
+        </div>
+      </a>
+      <a href="https://maps.google.com/?q=Craiova" class="contact-item reveal">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">
+          <span class="contact-item-label">Locație</span>
+          <span class="contact-item-value">Craiova, Romania</span>
+        </div>
+      </a>
+    </div>
+
+    <form class="contact-form reveal" onsubmit="handleContactSubmit(event)">
+      <div>
+        <label for="cf-name">Nume</label>
+        <input id="cf-name" type="text" required placeholder="Numele tău">
+      </div>
+      <div>
+        <label for="cf-phone">Telefon</label>
+        <input id="cf-phone" type="tel" required placeholder="07xx xxx xxx">
+      </div>
+      <div>
+        <label for="cf-message">Mesaj</label>
+        <textarea id="cf-message" required placeholder="Descrie ce ai nevoie..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="justify-content:center">Trimite mesaj</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> sorin. Toate drepturile rezervate.
+</footer>
+
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/075464335" class="whatsapp-float" aria-label="WhatsApp">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.005 21.79h-.005a9.847 9.847 0 0 1-5.031-1.378l-.361-.214-3.741.981.999-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.892c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a12.062 12.062 0 0 0 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"/></svg>
+</a>
+
+<!-- Chatbot Widget -->
+<button class="chatbot-toggle" onclick="toggleChat()" aria-label="Asistent virtual">💬</button>
+<div class="chatbot-window" id="chatbot-window">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">🤖</div>
+    <div>
+      <div class="chatbot-title">Asistent sorin</div>
+      <div class="chatbot-status">Online — răspuns instant</div>
+    </div>
+  </div>
+  <div class="chatbot-messages" id="chat-messages">
+    <div class="chat-msg bot">Bună! Sunt asistentul virtual sorin. Cu ce te pot ajuta?</div>
+  </div>
+  <div class="chatbot-quick-replies" id="quick-replies">
+    <button onclick="sendQuick('Vreau o ofertă')">💰 Vreau o ofertă</button>
+    <button onclick="sendQuick('Care e timpul de execuție?')">⏱ Timp execuție</button>
+    <button onclick="sendQuick('Lucrați în zona mea?')">📍 Zona</button>
+  </div>
+  <div class="chatbot-input">
+    <input type="text" id="chat-input" placeholder="Scrie mesajul tău..." onkeypress="if(event.key==='Enter')sendMessage()">
+    <button onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+// ── Year ──
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ── GSAP scroll animations ──
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.reveal').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' } }
+  );
+});
+
+// ── Chatbot ──
+const CHAT_API = 'https://api.coredigital.ro/chat';  // e.g. https://your-api.example.com/chat
+const CLIENT_ID = 'sorin';    // unique per business
+let chatHistory = [];
+
+function toggleChat() {
+  const w = document.getElementById('chatbot-window');
+  w.classList.toggle('open');
+  if (w.classList.contains('open')) document.getElementById('chat-input').focus();
+}
+
+function appendMessage(role, text) {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + (role === 'user' ? 'user' : 'bot');
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+  chatHistory.push({ role, content: text });
+}
+
+function showTyping() {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.id = 'typing-indicator';
+  div.className = 'chat-typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+function hideTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  appendMessage('user', text);
+  document.getElementById('quick-replies').style.display = 'none';
+  showTyping();
+
+  try {
+    // Replace this fetch with your real API call once backend is live
+    const res = await fetch(CHAT_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: CLIENT_ID, messages: chatHistory })
+    });
+    const data = await res.json();
+    hideTyping();
+    appendMessage('assistant', data.reply || 'Mulțumesc pentru mesaj! Cineva te va contacta în curând.');
+  } catch (err) {
+    hideTyping();
+    // Fallback while backend isn't configured
+    setTimeout(() => {
+      appendMessage('assistant', 'Pentru un răspuns rapid, te rog scrie-mi pe WhatsApp: 075464335');
+    }, 500);
+  }
+}
+
+function sendQuick(text) {
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+// ── Contact form ──
+async function handleContactSubmit(e) {
+  e.preventDefault();
+  const data = {
+    name: document.getElementById('cf-name').value,
+    phone: document.getElementById('cf-phone').value,
+    message: document.getElementById('cf-message').value,
+    client_id: CLIENT_ID,
+  };
+  try {
+    await fetch('https://api.coredigital.ro/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    alert('Mulțumim! Te contactăm în cel mai scurt timp.');
+    e.target.reset();
+  } catch (err) {
+    // Fallback: open WhatsApp with the message pre-filled
+    const wa = `https://wa.me/075464335?text=${encodeURIComponent(`Salut! Sunt ${data.name} (${data.phone}). ${data.message}`)}`;
+    window.open(wa, '_blank');
+  }
+}
+</script>
+
+</body>
+</html>
